@@ -108,5 +108,6 @@ it('has a stable exported API (dist)', async () => {
     importMode: 'dist',
     cwd: fileURLToPath(import.meta.url)
   })
+  console.log('dummy log to test size comparision workflow')
   expect(manifest.exports).toMatchInlineSnapshot(exports)
 })
