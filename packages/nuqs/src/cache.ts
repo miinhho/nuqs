@@ -107,6 +107,7 @@ export function createSearchParamsCache<Parsers extends ParserMap>(
     loaderOptions: LoaderFunctionOptions = {}
   ) {
     if (searchParams instanceof Promise) {
+      console.log('This is useless log to test size comparison in the CI')
       return searchParams.then(searchParams =>
         parseSync(searchParams, loaderOptions)
       )
