@@ -53,10 +53,15 @@ jobs:
           echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
           echo "Head SHA: ${{ github.sha }}"
 
-          # Get changed files between base and head
-          changed_files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" -- 'packages/nuqs/src/**/*.ts')
+          # Get all changed files first
+          all_changed_files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}")
+          echo "All changed files:"
+          echo "$all_changed_files"
 
-          echo "Changed files:"
+          # Filter for TypeScript files in packages/nuqs/src/
+          changed_files=$(echo "$all_changed_files" | grep '^packages/nuqs/src/.*\.ts$' || true)
+
+          echo "Filtered changed files:"
           echo "$changed_files"
           echo "==================="
 
