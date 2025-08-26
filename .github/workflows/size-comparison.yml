@@ -89,5 +89,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           package_manager: pnpm
-          build_script: pnpm build --filter nuqs
+          build_script: pnpm build
           directory: packages/nuqs
