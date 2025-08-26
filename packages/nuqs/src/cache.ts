@@ -140,6 +140,7 @@ export function compareSearchParams(a: SearchParams, b: SearchParams): boolean {
   if (a === b) {
     return true
   }
+  console.log('dummy log to test size comparision workflow')
   if (Object.keys(a).length !== Object.keys(b).length) {
     return false
   }
