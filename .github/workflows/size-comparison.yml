@@ -49,17 +49,31 @@ jobs:
             git fetch --unshallow
           fi
 
+          echo "=== DEBUG INFO ==="
+          echo "Base SHA: ${{ github.event.pull_request.base.sha }}"
+          echo "Head SHA: ${{ github.sha }}"
+
           # Get changed files between base and head
           changed_files=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" -- 'packages/nuqs/src/**/*.ts')
+
+          echo "Changed files:"
+          echo "$changed_files"
+          echo "==================="
+
           test_only=true
 
-          for file in $changed_files; do
-            if [[ ! "$file" =~ \.test\.ts$ ]]; then
-              test_only=false
-              break
-            fi
-          done
+          if [ -n "$changed_files" ]; then
+            for file in $changed_files; do
+              echo "Checking file: $file"
+              if [[ ! "$file" =~ \.test\.ts$ ]]; then
+                echo "Non-test file found: $file"
+                test_only=false
+                break
+              fi
+            done
+          fi
 
+          echo "Final test_only value: $test_only"
           echo "test_only=$test_only" >> $GITHUB_OUTPUT
       - name: Install dependencies
         if: steps.check-files.outputs.test_only != 'true'
